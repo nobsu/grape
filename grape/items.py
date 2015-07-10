@@ -5,10 +5,23 @@
 # See documentation in:
 # http://doc.scrapy.org/en/latest/topics/items.html
 
-import scrapy
+from scrapy import Item, Field
 
 
-class GrapeItem(scrapy.Item):
+class GrapeItem(Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
+
+
+class NewsItem(Item):
+    newsid = Field()
+    title = Field()
+    url = Field()
+    desc = Field()
+    time = Field()
+
+class NewsDetailItem(Item):
+    newsid = Field()
+    url = Field()
+    content = Field()
