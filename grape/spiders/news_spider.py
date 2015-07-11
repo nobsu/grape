@@ -4,12 +4,12 @@ Created on 2015年7月10日
 
 @author: nob
 '''
-import logging
 import scrapy
+from scrapy import log
 from scrapy.spiders import Spider
 from scrapy.http import Request
 from grape.items import NewsItem, NewsDetailItem
-import grape.utils
+import grape.utils as utils
 
 class NewsSpider(Spider):
     name = "baidu_news"
@@ -25,6 +25,7 @@ class NewsSpider(Spider):
     def parse(self, response):
         next_link = response.xpath(u'//*[@id="page"]/a[text()="下一页"]/@href').extract()
         if next_link:
+            log.msg(next_link)
             yield Request(url=next_link, callback=self.parse)
 
         for news_item in response.xpath('//li[@class="result"]'):

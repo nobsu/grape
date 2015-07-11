@@ -14,8 +14,10 @@ BOT_NAME = 'grape'
 SPIDER_MODULES = ['grape.spiders']
 NEWSPIDER_MODULE = 'grape.spiders'
 
-MONGODB_SERVER = "localhost"
-MONGODB_PORT = 27017
+DOWNLOAD_DELAY = 1
+
+MONGODB_SERVER = "127.0.0.1"
+MONGODB_PORT = 27016
 MONGODB_DB = "grape"
 
 LOG_FILE = "data/logs/scrapy.log"
@@ -59,6 +61,11 @@ LOG_FILE = "data/logs/scrapy.log"
 #DOWNLOADER_MIDDLEWARES = {
 #    'grape.middlewares.MyCustomDownloaderMiddleware': 543,
 #}
+# 随机请求头
+DOWNLOADER_MIDDLEWARES = {
+    'grape.downloadermiddleware.rotate_useragent.RotateUserAgentMiddleware': 400,
+    'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware': None,
+}
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html

@@ -17,8 +17,38 @@ class MongoPipeline(object):
     """
          hack ,,,save the data to mongodb
     """
-    MONGODB_SERVER = "localhost"
-    MONGODB_PORT = 27017 ###!!!!!!!!!!!!!!!!!!!!!
+
+    def __init__(self, mongo_uri, mongo_port, mongo_db):
+        self.mongo_uri = mongo_uri
+        self.mongo_port = mongo_port
+        self.mongo_db = mongo_db
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(
+            mongo_uri=crawler.settings.get('MONGODB_SERVER'),
+            mongo_port=crawler.settings.get('MONGODB_PORT', 27016),
+            mongo_db=crawler.settings.get('MONGODB_DB', 'grape')
+        )
+
+    def open_spider(self, spider):
+        self.client = MongoClient(self.mongo_uri, self.mongo_port)
+        self.db = self.client[self.mongo_db]
+
+    def close_spider(self, spider):
+        self.client.close()
+
+    def process_item(self, item, spider):
+        collection_name = item.__class__.__name__
+        self.db[collection_name].insert(dict(item))
+        return item
+
+class MongoPipeline2(object):
+    """
+         hack ,,,save the data to mongodb
+    """
+    MONGODB_SERVER = "127.0.0.1"
+    MONGODB_PORT = 27016 ###!!!!!!!!!!!!!!!!!!!!!
     MONGODB_DB = "grape"
 
     def _init_(self):
@@ -27,15 +57,8 @@ class MongoPipeline(object):
         """
         client = MongoClient(self.MONGODB_SERVER,self.MONGODB_PORT)
         self.db = client[self.MONGODB_DB]
-
-    @classmethod
-    def from_crawler(cls, crawler):
-        cls.MONGODB_SERVER = crawler.settings.get('SingleMONGODB_SERVER', 'localhost')
-        cls.MONGODB_PORT = crawler.settings.getint('SingleMONGODB_PORT', 27017)
-        cls.MONGODB_DB = crawler.settings.get('SingleMONGODB_DB', 'books_fs')
-        pipe = cls()
-        pipe.crawler = crawler
-        return pipe
+        print self.db
+        exit();
 
     # 保存
     def process_item(self,item,spider):
