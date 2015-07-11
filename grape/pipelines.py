@@ -11,23 +11,23 @@ import sys
 import json
 from pprint import pprint
 from scrapy import log
-from pymongo.connection import MongoClient
+from pymongo import MongoClient
 
-class GrapePipeline(object):
-    #def process_item(self, item, spider):
-    #   return item
+class MongoPipeline(object):
     """
          hack ,,,save the data to mongodb
     """
     MONGODB_SERVER = "localhost"
     MONGODB_PORT = 27017 ###!!!!!!!!!!!!!!!!!!!!!
-    MONGODB_DB = "books_fs"
+    MONGODB_DB = "grape"
+
     def _init_(self):
         """
             The only async froamework that PyMongo fully supports is Gevent
         """
         client = MongoClient(self.MONGODB_SERVER,self.MONGODB_PORT)
         self.db = client[self.MONGODB_DB]
+
     @classmethod
     def from_crawler(cls, crawler):
         cls.MONGODB_SERVER = crawler.settings.get('SingleMONGODB_SERVER', 'localhost')
@@ -36,18 +36,23 @@ class GrapePipeline(object):
         pipe = cls()
         pipe.crawler = crawler
         return pipe
-    #保存
+
+    # 保存
     def process_item(self,item,spider):
         msg_data = {
-            'url':item.get('url',''),
-            'msg':item.get('msg')
+            'newsid':item.get('newsid'),
+            'url':item.get('url'),
+            'content':item.get('content', '')
         }
-        result = self.db['book_detail'].insert(msg_data)
+        result = self.db['first_news'].insert(msg_data)
+
         item['mongodb_id'] = str(result)
-        log.msg("Item %s wrote to MongoDB database %s/book_detail" %
+        log.msg("Item %s wrote to MongoDB database %s/grape" %
                 (result,self.MONGODB_DB),
                 level = log.DEBUG,spider = spider)
         return item
+
+
 class JsonWriterPipeline(object):
     def __init__(self):
         self.file = open('/home/guochunyan/hack/grape/data/item.js','wb')
