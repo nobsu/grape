@@ -1,5 +1,5 @@
 # grape
-使用scrapy，mongodb实现的一个网络爬虫
+grape舆情监控
 
-#
-push成功了不？
+使用scrapy，mongodb实现了一个网络爬虫
+scikit-learn 进行document分类
