@@ -9,8 +9,8 @@ import scrapy
 from scrapy import log
 from scrapy.spiders import Spider
 from scrapy.http import Request
-from grape.items import NewsItem, NewsDetailItem
-import grape.utils as utils
+from ..items import NewsItem, NewsDetailItem
+from .. import utils
 
 class NewsSpider(Spider):
     name = "baidu_news"
