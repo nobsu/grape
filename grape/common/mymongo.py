@@ -5,15 +5,14 @@ Created on 2015年7月11日
 @author: nob
 '''
 from pymongo import MongoClient
+from ..config import MongoConf
 
-MONGODB_SERVER = "127.0.0.1"
-MONGODB_PORT = 27016
-MONGODB_DB = "grape"
-
-def get_db():
+def get_db(dbname=None):
     """
-    useage: db[collection_name].insert(dict(item))
+    usage:  db.collection.insert_many([item1, item2])
+            db[collection_name].insert(dict(item))
     """
-    client = MongoClient(MONGODB_SERVER, MONGODB_PORT)
-    db = client[MONGODB_DB]
+    client = MongoClient(MongoConf.MONGODB_SERVER, MongoConf.MONGODB_PORT)
+    db = client[dbname or MongoConf.MONGODB_DB]
     return db
+

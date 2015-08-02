@@ -9,13 +9,73 @@ u'''对MySQLdb常用函数进行封装的类
  注意：使用这个类的前提是正确安装 MySQL-Python模块。
  官方网站：http://mysql-python.sourceforge.net/
 '''
+import logging
+import re
+import threading
+import time
 
 import MySQLdb
-import time
-from config import dbconfig
+
+from ..config import mysqlconf as dbconfig
+
 
 def get_mysql():
     return MySQL(dbconfig)
+
+class Ndb():
+    """
+    # 提供了一些常用的操作mysql方法
+    usage: 
+        db = Ndb.getins()
+        sql = "SELECT class, id FROM `trainingset`"
+        data = db.query2dict(sql)
+    """
+    _instance = None
+    mutex = threading.Lock()
+
+    def __init__(self):
+        self.db = MySQL(dbconfig)
+
+    @staticmethod
+    def getins():
+        if Ndb._instance == None:
+            Ndb.mutex.acquire()
+            if Ndb._instance == None:
+                logging.info('初始化实例')
+                Ndb._instance = Ndb()
+            else:
+                logging.info('单例已经实例化')
+            Ndb.mutex.release()
+        else:
+            logging.info('单例已经实例化')
+        return Ndb._instance
+
+    def query(self, sql):
+        self.db.query(sql);
+        while True:
+            row = self.db.fetchOneRow()
+            if not row:
+                break
+            yield row
+
+    def query2dict(self, sql):
+        """"
+        # 从表查询记录，并转换为字典
+        """
+        fields = re.findall(".*select(.*)from.*", sql.lower())
+        if fields[0].strip() is '*':
+            raise Exception('query2dict method not allow `select *` query')
+        fields = [word.strip() for word in  fields[0].split(',')]
+
+        self.db.query(sql);
+        rows = self.db.fetchAllRows()
+
+        result = [dict(zip(['id', 'class', 'title'], item)) for item in rows]
+        return result
+
+    def __del__(self):
+        if self.db:
+            self.db.close()
 
 class MySQL:
     u'''对MySQLdb常用函数进行封装的类'''
@@ -37,7 +97,7 @@ class MySQL:
                                          user=dbconfig['user'],
                                          passwd=dbconfig['passwd'],
                                          db=dbconfig['db'],
-                                         charset=dbconfig['charset'])
+                                         charset=dbconfig['charset'],)
         except MySQLdb.Error, e:
             self.error_code = e.args[0]
             error_msg = 'MySQL error! ', e.args[0], e.args[1]
@@ -52,7 +112,7 @@ class MySQL:
             else:
                 raise Exception(error_msg)
 
-        self._cur = self._conn.cursor()
+        self._cur = self._conn.cursor(cursorclass=MySQLdb.cursors.DictCursor)
         self._instance = MySQLdb
 
     def query(self, sql):
@@ -124,36 +184,9 @@ class MySQL:
 
 if __name__ == '__main__':
     '''使用样例'''
+    pass
+    db = Ndb.getins()
+    sql = "SELECT id, class, title FROM `trainingset`"
+    data = db.query2dict(sql)
+    print data
 
-    # 数据库连接参数
-    dbconfig = {'host': '127.0.0.1',
-                'port': 3306,
-                'user': 'production',
-                'passwd': 'BEEQXXTGICARSCLU',
-                'db': 'grape',
-                'charset': 'utf8'}
-
-    # 连接数据库，创建这个类的实例
-    db = MySQL(dbconfig)
-
-    # 操作数据库
-    sql = "SELECT * FROM `trainingset`"
-    db.query(sql);
-
-    # 获取结果列表
-    result = db.fetchAllRows();
-
-    # 相当于php里面的var_dump
-    print result
-
-    # 对行进行循环
-    for row in result:
-        # 使用下标进行取值
-        # print row[0]
-
-        # 对列进行循环
-        for colum in row:
-            print colum
-
-    # 关闭数据库
-    db.close()

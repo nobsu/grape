@@ -4,8 +4,8 @@ Created on 2015年7月11日
 
 @author: nob
 '''
-from common.mymongo import get_db
-from common.mydb import get_mysql
+from ..common.mymongo import get_db
+from ..common.mydb import get_mysql
 
 def get_trainingset(rank, limit=100):
     docs = []

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for grape project
+# Scrapy settings for webcrawler project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,23 +9,24 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'grape'
+BOT_NAME = 'webcrawler'
 
-SPIDER_MODULES = ['grape.spiders']
-NEWSPIDER_MODULE = 'grape.spiders'
+SPIDER_MODULES = ['webcrawler.spiders']
+NEWSPIDER_MODULE = 'webcrawler.spiders'
 
 DOWNLOAD_DELAY = 1
 
-MONGODB_SERVER = "127.0.0.1"
-MONGODB_PORT = 27016
-MONGODB_DB = "grape"
+from .. import config
+MONGODB_SERVER = config.MONGODB_SERVER
+MONGODB_PORT = config.MONGODB_PORT
+MONGODB_DB = config.MONGODB_DB
 
 LOG_FILE = "data/logs/scrapy.log"
 
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'grape (+http://www.yourdomain.com)'
+#USER_AGENT = 'webcrawler (+http://www.yourdomain.com)'
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS=32
@@ -53,17 +54,17 @@ LOG_FILE = "data/logs/scrapy.log"
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'grape.middlewares.MyCustomSpiderMiddleware': 543,
+#    'webcrawler.middlewares.MyCustomSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'grape.middlewares.MyCustomDownloaderMiddleware': 543,
+#    'webcrawler.middlewares.MyCustomDownloaderMiddleware': 543,
 #}
 # 随机请求头
 DOWNLOADER_MIDDLEWARES = {
-    'grape.downloadermiddleware.rotate_useragent.RotateUserAgentMiddleware': 400,
+    'webcrawler.downloadermiddleware.rotate_useragent.RotateUserAgentMiddleware': 400,
     'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware': None,
 }
 
@@ -76,7 +77,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'grape.pipelines.MongoPipeline': 300,
+    'webcrawler.pipelines.MongoPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
