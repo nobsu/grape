@@ -4,7 +4,7 @@ Created on 2015年7月22日
 
 @author: nob
 '''
-from grape.classifydoc.learn import *
+from grape.classifydoc.learn import load_data
 from grape.common.mydb import Ndb
 
 
