@@ -4,7 +4,7 @@ Created on 2015年7月22日
 
 @author: nob
 '''
-from grape.classifydoc.learn import load_data
+from grape.classifydoc.learn import load_data, main
 from grape.common.mydb import Ndb
 
 
@@ -21,6 +21,4 @@ def mongotest():
     print result.inserted_ids
 
 if __name__ == '__main__':
-    data = load_data()
-    for x in data:
-        print x
+    main()
