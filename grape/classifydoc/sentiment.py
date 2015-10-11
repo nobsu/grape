@@ -5,27 +5,30 @@ Created on 2015年7月11日
 @author: nob
 '''
 import os
-import random
 import pickle
+import random
+
 import jieba.analyse
 import nltk
-from .trainingset import get_trainingset
+
 from .const import PROJECT_ROOT
+from .trainingset import get_trainingset
+
 
 DATA_FOLDER = os.path.join(PROJECT_ROOT, 'data')
 word_features_file = my_log = os.path.join(DATA_FOLDER, "word_features.dat")
 classifierdata_file = os.path.join(DATA_FOLDER, "classifierdata.dat")
 
-word_features = pickle.load(open(word_features_file,'r'))
-classifier = pickle.load(open(classifierdata_file,"r"))
+word_features = pickle.load(open(word_features_file, 'r'))
+classifier = pickle.load(open(classifierdata_file, "r"))
 
 def gender_features(doc):
     global word_features
-    words  = jieba.cut(doc)
-    fl = (" ".join(words )).split()
+    words = jieba.cut(doc)
+    fl = (" ".join(words)).split()
     fd = {}
     for word in word_features:
-        fd[u'contains(%s)'%word] = (word in fl)
+        fd[u'contains(%s)' % word] = (word in fl)
     return fd
 
 def doc_classify(article):
@@ -38,7 +41,7 @@ def doc_classify(article):
     rank = int(classifier.classify(gender_features(article['text'])))
     article['rank'] = rank
 
-    print "所有keywords数量：",len(keywords)
+    print "所有keywords数量：", len(keywords)
     kwfd = nltk.FreqDist(keywords)
     keywords = kwfd.keys()[:10]
     return rank, article, keywords
