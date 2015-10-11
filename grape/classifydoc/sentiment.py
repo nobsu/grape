@@ -7,7 +7,7 @@ Created on 2015年7月11日
 import os
 import random
 import pickle
-import jieba
+import jieba.analyse
 import nltk
 from .trainingset import get_trainingset
 from .const import PROJECT_ROOT
