@@ -5,24 +5,38 @@
     <div class="container">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">新闻情感分类示例</h3>
+                <h3 class="panel-title">情感分类测试</h3>
             </div>
             <div class="panel-body text-left">
 
                 <form class="form-horizontal" action="/news-classify" method="post">
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">文档标题</label>
+                        <label for="inputEmail3" class="col-sm-2 control-label">分类器</label>
+                        <div class="col-sm-10">
+                        <label class="radio-inline">
+                            <input type="radio" name="classifier" id="inlineRadio1" value="news"> 新闻
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="classifier" id="inlineRadio2" value="weibo"> 微博
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="classifier" id="inlineRadio3" value="car" checked> 汽车
+                        </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-2 control-label">标题</label>
 
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="exampleInputEmail1"
+                            <input type="text" class="form-control" id="title" name="title"
                                    placeholder="标题会作为情感分析的一个因素">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">文档正文</label>
+                        <label for="inputEmail3" class="col-sm-2 control-label">正文</label>
 
                         <div class="col-sm-10">
-                            <textarea class="form-control" rows="3" placeholder="粘贴至此"></textarea>
+                            <textarea class="form-control" rows="3" name="content" placeholder="粘贴至此"></textarea>
                         </div>
                     </div>
                     <div class="form-group">

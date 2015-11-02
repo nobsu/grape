@@ -4,6 +4,7 @@ Created on 2015年7月22日
 
 @author: nob
 '''
+import os
 
 class MongoConf(object):
     MONGODB_SERVER = "127.0.0.1"
@@ -18,11 +19,5 @@ mysqlconf = {
     'db': 'grape',
     'charset': 'utf8',
 }
-# mysqlconf = {
-#     'host': '127.0.0.1',
-#     'port': 3306,
-#     'user': 'production',
-#     'passwd': 'BEEQXXTGICARSCLU',
-#     'db': 'grape',
-#     'charset': 'utf8',
-# }
+
+PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))

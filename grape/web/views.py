@@ -3,6 +3,9 @@ from flask import Blueprint, render_template, request, session, redirect, url_fo
 from flask import g, request, flash, current_app, make_response, jsonify, abort
 from flask import render_template, redirect, url_for, send_from_directory
 
+
+from ..classifydoc.predict import document_classify
+
 home = Blueprint('home', __name__, static_url_path="/static", template_folder='templates', static_folder='static')
 
 
@@ -45,4 +48,16 @@ def page(slug=None):
 
 
 def news_classify():
-    return "新闻分类"
+    if request.method == 'POST':
+        classifier = request.form['classifier']
+        title = request.form['title']
+        content = request.form['content']
+
+        ret = ''
+        result = document_classify(classifier, title, content)
+        for r in result:
+            ret += r
+
+        return render_template('classify_result.html', result=ret)
+    else:
+        return render_template('404.html'), 404

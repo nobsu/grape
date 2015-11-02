@@ -46,6 +46,7 @@ def input_data(train_data, test_data):
 comma_tokenizer = lambda x: jieba.cut(x, cut_all=True)
 
 
+
 def vectorize(train_words):
     v = HashingVectorizer(tokenizer=comma_tokenizer, n_features=30000, non_negative=True)
     train_data = v.fit_transform(train_words)
