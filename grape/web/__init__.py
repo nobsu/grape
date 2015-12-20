@@ -20,7 +20,7 @@ def create_app():
 
     # 注册蓝图/视图
     from .views import home
-    app.register_blueprint(home)
+    app.register_blueprint(home, url_prefix='/clf')
 
     return app
 
