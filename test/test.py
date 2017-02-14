@@ -18,7 +18,7 @@ def mongotest():
             {"x": 3, "tags": []}]
 
     result = db.test.insert_many(data)
-    print result.inserted_ids
+    print(result.inserted_ids)
 
 if __name__ == '__main__':
     main()

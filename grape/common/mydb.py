@@ -101,7 +101,7 @@ class MySQL:
         except MySQLdb.Error, e:
             self.error_code = e.args[0]
             error_msg = 'MySQL error! ', e.args[0], e.args[1]
-            print error_msg
+            # print(error_msg)
 
             # 如果没有超过预设超时时间，则再次尝试连接，
             if self._timecount < self._TIMEOUT:
@@ -122,7 +122,7 @@ class MySQL:
             result = self._cur.execute(sql)
         except MySQLdb.Error, e:
             self.error_code = e.args[0]
-            print "数据库错误代码:", e.args[0], e.args[1]
+            # print "数据库错误代码:", e.args[0], e.args[1]
             result = False
         return result
 
@@ -134,7 +134,7 @@ class MySQL:
             self._conn.commit()
         except MySQLdb.Error, e:
             self.error_code = e.args[0]
-            print "数据库错误代码:", e.args[0], e.args[1]
+            # print "数据库错误代码:", e.args[0], e.args[1]
             result = False
         return result
 
@@ -188,5 +188,5 @@ if __name__ == '__main__':
     db = Ndb.getins()
     sql = "SELECT id, class, title FROM `trainingset`"
     data = db.query2dict(sql)
-    print data
+    # print data
 

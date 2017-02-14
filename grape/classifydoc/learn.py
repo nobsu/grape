@@ -83,8 +83,8 @@ def main():
     pred = clf.predict(test_data)
     
     m_precision, m_recall = evaluate(numpy.asarray(test_tags), pred)
-    print 'precision:{0:.3f}'.format(m_precision)
-    print 'recall:{0:0.3f}'.format(m_recall)
+    print('precision:{0:.3f}'.format(m_precision))
+    print('recall:{0:0.3f}'.format(m_recall))
 
     filename = 'clf_{0:.3f}_{1:.3f}'.format(m_precision, m_recall)
     persisting(clf, filename)

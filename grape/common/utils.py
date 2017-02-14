@@ -145,8 +145,8 @@ def keyword2latlngZH(keyword, city='110100'):
         except:
             try_times += 1
             time.sleep(try_times)
-            print 'try_times: ', try_times,
-            print url
+            # print 'try_times: ', try_times,
+            # print url
             pass
 
     entity = jsonstr2entity(content)
@@ -180,9 +180,9 @@ def distance(lat1, lng1, lat2, lng2, unit='metre'):
 
 
 if __name__ == '__main__':
-    print get_ip()
-    print '北京天安门: ', keyword2latlngZH('北京天安门')
-    print distance(39.941100, 116.39179, 39.907499, 116.391799)
+    # print get_ip()
+    # print '北京天安门: ', keyword2latlngZH('北京天安门')
+    # print distance(39.941100, 116.39179, 39.907499, 116.391799)
     en = Xcrypt()
-    print "20176: ", en.encode('20176')
-    print "ys7BJkWwuXEZ: ", en.decode('ys7BJkWwuXEZ')
+    # print "20176: ", en.encode('20176')
+    # print "ys7BJkWwuXEZ: ", en.decode('ys7BJkWwuXEZ')

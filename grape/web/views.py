@@ -18,7 +18,7 @@ def index():
 def hello():
 
     from config import Config
-    print Config.SQLALCHEMY_DATABASE_URI
+    print (Config.SQLALCHEMY_DATABASE_URI)
     # return "hello大坏蛋"
     return render_template('hello.html')
 

@@ -73,4 +73,4 @@ test_words = [doc1, doc2, doc3, doc4, doc5, doc6, doc7]
 test_data = vectorize(test_words)
 
 pred = clf.predict(test_data)
-print pred
+print(pred)

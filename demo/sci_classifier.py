@@ -47,8 +47,8 @@ def vectorize(train_words, test_words):
 def evaluate(actual, pred):
     m_precision = metrics.precision_score(actual, pred)
     m_recall = metrics.recall_score(actual, pred)
-    print 'precision:{0:.3f}'.format(m_precision)
-    print 'recall:{0:0.3f}'.format(m_recall)
+    print('precision:{0:.3f}'.format(m_precision))
+    print('recall:{0:0.3f}'.format(m_recall))
 
 
 def train_clf(train_data, train_tags):
@@ -59,7 +59,7 @@ def train_clf(train_data, train_tags):
 
 def main():
     if len(sys.argv) < 3:
-        print '[Usage]: python classifier.py train_file test_file'
+        print('[Usage]: python classifier.py train_file test_file')
         sys.exit(0)
     train_file = sys.argv[1]
     test_file = sys.argv[2]
