@@ -14,7 +14,7 @@ from .sentiment import vectorize
 DATA_FOLDER = os.path.join(PROJECT_ROOT, 'data/pkl')
 clf_file = os.path.join(DATA_FOLDER, "clf_0.913_0.931.pkl")
 
-clf = pickle.load(open(clf_file, "r"))
+clf = pickle.load(open(clf_file, "rb"))
 
 
 allclftype = ['news', 'weibo', 'car']
